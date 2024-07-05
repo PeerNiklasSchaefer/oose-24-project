@@ -17,6 +17,8 @@ public class Building {
     @ManyToOne
     @JoinColumn(name="university_id")
     private University university;
+    @OneToMany
+    private List<Chair> chairs;
 
     //No-argument constructor
     public Building(){}

@@ -10,7 +10,7 @@ public class Room {
     //Properties
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    public long id;
     private String number;
     private int seats;
     private boolean isAuditorium;

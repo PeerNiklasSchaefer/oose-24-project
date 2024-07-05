@@ -1,9 +1,6 @@
 package com.sse.ooseproject.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "employee")
@@ -14,6 +11,9 @@ public class Employee extends Person{
     @ManyToOne
     @JoinColumn(name="university_id")
     private University university;
+    @OneToOne
+    @JoinColumn(name="chair_id")
+    private Chair chair;
 
     //No-argument constructor
     public Employee(){
@@ -48,5 +48,12 @@ public class Employee extends Person{
     }
     public void setUniversity(University university) {
         this.university = university;
+    }
+
+    public Chair getChair() {
+        return chair;
+    }
+    public void setChair(Chair chair) {
+        this.chair = chair;
     }
 }

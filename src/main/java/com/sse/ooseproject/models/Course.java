@@ -10,7 +10,7 @@ public class Course {
     //Properties
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    public long id;
     private String name;
     @OneToMany(mappedBy = "course")
     private List<RoomOccupancy> roomOccupancies;
@@ -18,6 +18,9 @@ public class Course {
     private List<Enrollment> enrollments;
     @OneToMany(mappedBy = "course")
     private List<TeachingShift> teachingShifts;
+    @ManyToOne
+    @JoinColumn(name="chair_id")
+    private Chair chair;
 
     //No-argument constructor
     public Course(){}
@@ -61,5 +64,12 @@ public class Course {
 
     public void setTeachingShifts(List<TeachingShift> teachingShifts) {
         this.teachingShifts = teachingShifts;
+    }
+
+    public Chair getChair() {
+        return chair;
+    }
+    public void setChair(Chair chair) {
+        this.chair = chair;
     }
 }
