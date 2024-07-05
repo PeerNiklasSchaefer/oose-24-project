@@ -12,7 +12,7 @@ public class OrganizationalUnit {
     private long id;
     private String name;
 
-    //Construtor
+    //Constructor
     protected OrganizationalUnit() {}
 
     protected OrganizationalUnit(String name) {
@@ -26,7 +26,6 @@ public class OrganizationalUnit {
     public String getName() {
         return name;
     }
-
     public void setId(long id) {
         this.id = id;
     }
