@@ -1,7 +1,6 @@
 package com.sse.ooseproject.models;
 
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
@@ -15,17 +14,13 @@ public class Institute extends OrganizationalUnit{
     //Constructor
     public Institute() {}
 
-
-
     //Methods
-
     public List<Chair> getChairs() {
         return chairs;
     }
     public void setChairs(List<Chair> chairs) {
         this.chairs = chairs;
     }
-
     public String getProvidesStudySubject() {
         return providesStudySubject;
     }
