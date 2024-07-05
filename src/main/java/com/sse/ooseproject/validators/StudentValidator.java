@@ -36,7 +36,7 @@ public class StudentValidator {
             throw new StudentValidationException("Matriculation number is required.");
         }
         //Check Email Valid
-        if (!Pattern.compile("^(.+)@(\\S+) $").matcher(student.getEmail()).matches()){
+        if (!Pattern.compile("[-A-Za-z0-9!#$%&'*+/=?^_`{|}~]+(?:\\.[-A-Za-z0-9!#$%&'*+/=?^_`{|}~]+)*@(?:[A-Za-z0-9](?:[-A-Za-z0-9]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[-A-Za-z0-9]*[A-Za-z0-9])?").matcher(student.getEmail()).matches()){
             throw new StudentValidationException("The email address is not valid.");
         }
         //Check MatNr existing
