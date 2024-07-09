@@ -1,9 +1,10 @@
 package com.sse.ooseproject.controllers;
 
-import com.sse.ooseproject.models.Institute;
+import com.sse.ooseproject.models.*;
+import com.sse.ooseproject.repositories.CourseRepository;
+import com.sse.ooseproject.repositories.EnrollmentRepository;
 import com.sse.ooseproject.repositories.InstituteRepository;
 import com.sse.ooseproject.repositories.StudentRepository;
-import com.sse.ooseproject.models.Student;
 import com.sse.ooseproject.validators.StudentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -11,9 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -21,12 +20,48 @@ public class StudentController {
     private final StudentRepository studentRepository;
     private final InstituteRepository instituteRepository;
     private final StudentValidator studentValidator;
+    private final EnrollmentRepository enrollmentRepository;
+    private final CourseRepository courseRepository;
 
     @Autowired
-    public StudentController(StudentRepository studentRepository, InstituteRepository instituteRepository, StudentValidator studentValidator) {
+    public StudentController(StudentRepository studentRepository, InstituteRepository instituteRepository, StudentValidator studentValidator, EnrollmentRepository enrollmentRepository, CourseRepository courseRepository) {
         this.studentRepository = studentRepository;
         this.instituteRepository = instituteRepository;
         this.studentValidator = studentValidator;
+        this.enrollmentRepository = enrollmentRepository;
+        this.courseRepository = courseRepository;
+    }
+
+    private List<String> getStudySubjects(){
+        List<Institute> institutes = instituteRepository.findAll();
+        List<String> studySubjects = institutes.stream().map(Institute::getProvidesStudySubject).collect(Collectors.toList());
+        return studySubjects.stream().distinct().collect(Collectors.toList());
+    }
+
+    private List<Course> getCourses(String studySubject){
+        Institute institute = instituteRepository.findByProvidesStudySubject(studySubject);
+        List<Chair> chairs = institute.getChairs();
+
+        Set<Course> courses = new HashSet<>();
+        for(Chair chair : chairs){
+            if(chair.getCourses() != null) courses.addAll(chair.getCourses());
+        }
+        return new ArrayList<>(courses);
+    }
+
+    private void validateAndSaveStudent(Student student, Model model, String pageType) {
+        try {
+            studentValidator.validateStudent(student);
+            studentRepository.save(student);
+            model.addAttribute("message", "Operation was successful");
+            model.addAttribute("message_type", "success");
+        } catch (Exception e) {
+            model.addAttribute("message", e.getMessage());
+            model.addAttribute("message_type", "error");
+            model.addAttribute("student", student);
+        }
+        model.addAttribute("study_subjects", getStudySubjects());
+        model.addAttribute("page_type", pageType);
     }
 
     @GetMapping("/students")
@@ -64,8 +99,7 @@ public class StudentController {
 
     @GetMapping("/student/edit")
     public String showEditForm(@RequestParam("id") long id, Model model) {
-        Optional<Student> student = studentRepository.findById(id);
-        model.addAttribute("student", student);
+        model.addAttribute("student", studentRepository.findById(id));
         model.addAttribute("page_type", "edit");
         model.addAttribute("study_subjects", getStudySubjects());
 
@@ -81,24 +115,35 @@ public class StudentController {
         return "edit_student";
     }
 
-    private List<String> getStudySubjects(){
-        List<Institute> institutes = instituteRepository.findAll();
-        List<String> studySubjects = institutes.stream().map(Institute::getProvidesStudySubject).collect(Collectors.toList());
-        return studySubjects.stream().distinct().collect(Collectors.toList());
+    @GetMapping("/student/enroll")
+    public String showEnrollmentForm(@RequestParam("id") long id, @RequestParam(name = "semester", defaultValue = "2024 Spring") String semester, Model model){
+        Student student = studentRepository.findById(id);
+
+        model.addAttribute("student", student);
+        model.addAttribute("enrollments", enrollmentRepository.findByIdStudentIdAndSemester(id, semester));
+        model.addAttribute("semester", semester);
+        model.addAttribute("courses", getCourses(student.getStudySubject()));
+
+        return "enrollment";
     }
 
-    private void validateAndSaveStudent(Student student, Model model, String pageType) {
-        try {
-            studentValidator.validateStudent(student);
-            studentRepository.save(student);
-            model.addAttribute("message", "Operation was successful");
-            model.addAttribute("message_type", "success");
-        } catch (Exception e) {
-            model.addAttribute("message", e.getMessage());
-            model.addAttribute("message_type", "error");
-            model.addAttribute("student", student);
-        }
-        model.addAttribute("study_subjects", getStudySubjects());
-        model.addAttribute("page_type", pageType);
+    @GetMapping("/enrollment/enroll")
+    public String createStudentEnrollment(@RequestParam("student_id") long student_id, @RequestParam("course_id") long course_id, @RequestParam("semester") String semester, Model model){
+        Student student = studentRepository.findById(student_id);
+        Course course = courseRepository.findById(course_id);
+        enrollmentRepository.save(new Enrollment(semester, student, course));
+
+        showEnrollmentForm(student_id, semester, model);
+        return "enrollment";
+    }
+
+    @GetMapping("/enrollment/delete")
+    public String deleteStudentEnrollment(@RequestParam("student_id") long student_id, @RequestParam("course_id") long course_id, @RequestParam("semester") String semester, Model model){
+        Student student = studentRepository.findById(student_id);
+        Course course = courseRepository.findById(course_id);
+        enrollmentRepository.delete(new Enrollment(semester, student, course));
+
+        showEnrollmentForm(student_id, semester, model);
+        return "enrollment";
     }
 }
