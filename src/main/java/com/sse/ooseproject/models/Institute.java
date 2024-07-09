@@ -10,6 +10,7 @@ public class Institute extends OrganizationalUnit{
     //Properties
     @OneToMany(mappedBy = "institute")
     private List<Chair> chairs;
+
     private String providesStudySubject;
 
     //Constructor

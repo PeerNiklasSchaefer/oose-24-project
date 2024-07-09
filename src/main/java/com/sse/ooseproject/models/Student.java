@@ -10,7 +10,9 @@ import jakarta.persistence.Table;
 public class Student extends Person{
     //Properties
     private int matNr;
+
     private String studySubject;
+
     @ManyToOne
     @JoinColumn(name="university_id")
     private University university;

@@ -11,13 +11,18 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
+
     private String name;
+
     @OneToMany(mappedBy = "course")
     private List<RoomOccupancy> roomOccupancies;
+
     @OneToMany(mappedBy = "course")
     private List<Enrollment> enrollments;
+
     @OneToMany(mappedBy = "course")
     private List<TeachingShift> teachingShifts;
+
     @ManyToOne
     @JoinColumn(name="chair_id")
     private Chair chair;
@@ -26,14 +31,19 @@ public class Course {
     public Course(){}
 
     //Constructor
-    public Course(String name, List<RoomOccupancy> roomOccupancies, List<Enrollment> enrollments, List<TeachingShift> teachingShifts) {
+    public Course(String name, List<RoomOccupancy> roomOccupancies, List<Enrollment> enrollments, List<TeachingShift> teachingShifts, Chair chair) {
         this.name = name;
         this.roomOccupancies = roomOccupancies;
         this.enrollments = enrollments;
         this.teachingShifts = teachingShifts;
+        this.chair = chair;
     }
 
     //Methods
+    public long getId(){return this.id;}
+
+    public void setId(long id){this.id = id;}
+
     public String getName() {
         return name;
     }

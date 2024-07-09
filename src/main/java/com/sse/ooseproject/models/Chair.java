@@ -11,23 +11,27 @@ public class Chair extends OrganizationalUnit{
     @ManyToOne
     @JoinColumn(name="institute_id")
     private Institute institute;
+
     @OneToOne
     @JoinColumn(name="owner_id")
     private Employee owner;
+
     @ManyToOne
     @JoinColumn(name="building_id")
     private Building chairBuilding;
-    @OneToMany
+
+    @OneToMany(mappedBy = "chair")
     private List<Course> courses;
 
     //Constructor
     public Chair() {}
 
-    public Chair(String name, Institute institute, Employee owner, Building chairBuilding) {
+    public Chair(String name, Institute institute, Employee owner, Building chairBuilding, List<Course> courses) {
         super(name);
         this.institute = institute;
         this.owner = owner;
         this.chairBuilding = chairBuilding;
+        this.courses = courses;
     }
 
     //Methods
