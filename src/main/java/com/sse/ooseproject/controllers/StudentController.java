@@ -65,7 +65,7 @@ public class StudentController {
         try {
             studentValidator.validateStudent(student);
             studentRepository.save(student);
-            model.addAttribute("message", "Operation was successful");
+            model.addAttribute("message", "Student was successfully created");
             model.addAttribute("message_type", "success");
             model.addAttribute("student", new Student()); // Reset the form
         } catch (Exception e) {
