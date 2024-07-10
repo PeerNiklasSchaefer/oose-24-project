@@ -61,6 +61,7 @@ public class StudentController {
         List<Institute> institutes = instituteRepository.findAll();
         List<String> studySubjects = institutes.stream().map(Institute::getProvidesStudySubject).collect(Collectors.toList());
         studySubjects = studySubjects.stream().distinct().collect(Collectors.toList());
+        
         try {
             studentValidator.validateStudent(student);
             studentRepository.save(student);
