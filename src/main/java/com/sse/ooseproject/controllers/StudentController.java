@@ -82,13 +82,13 @@ public class StudentController {
     }
 
     @GetMapping ("/student/new")
-    public String newStudent(Model model) {
+    public String showStudentForm(Model model) {
         //Attributes
         model.addAttribute("student", new Student());
         model.addAttribute("page_type", "new");
         model.addAttribute("study_subjects", getStudySubjects());
 
-        // Returning the name of a view (found in resources/templates) as a string lets this endpoint return that view.
+        // Returning the name of a view
         return "edit_student";
     }
 
