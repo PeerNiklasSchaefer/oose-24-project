@@ -43,13 +43,11 @@ public class Enrollment {
 
     public void setStudent(Student student){
         this.student = student;
-        this.id.setStudentId(student.getId());
     }
 
     public Course getCourse(){return this.course;}
 
     public void setCourse(Course course){
         this.course = course;
-        this.id.setCourseId(course.getId());
     }
 }

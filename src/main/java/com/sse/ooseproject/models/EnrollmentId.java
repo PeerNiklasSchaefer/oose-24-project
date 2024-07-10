@@ -24,14 +24,8 @@ public class EnrollmentId {
     public long getStudentId(){
         return this.studentId;
     }
-    public void setStudentId(long studentId){
-        this.studentId = studentId;
-    }
 
     public long getCourseId(){
         return this.courseId;
-    }
-    public void setCourseId(long courseId){
-        this.courseId = courseId;
     }
 }

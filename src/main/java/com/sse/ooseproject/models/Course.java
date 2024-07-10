@@ -42,8 +42,6 @@ public class Course {
     //Methods
     public long getId(){return this.id;}
 
-    public void setId(long id){this.id = id;}
-
     public String getName() {
         return name;
     }
@@ -79,6 +77,7 @@ public class Course {
     public Chair getChair() {
         return chair;
     }
+
     public void setChair(Chair chair) {
         this.chair = chair;
     }
