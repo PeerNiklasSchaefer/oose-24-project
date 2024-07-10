@@ -35,7 +35,6 @@ public class Chair extends OrganizationalUnit{
     }
 
     //Methods
-
     public Institute getInstitute() {
         return institute;
     }
