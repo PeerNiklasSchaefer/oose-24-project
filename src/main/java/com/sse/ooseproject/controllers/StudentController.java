@@ -51,7 +51,7 @@ public class StudentController {
         model.addAttribute("page_type", "new");
         model.addAttribute("study_subjects", studySubjects);
 
-        // Returning the name of a view (found in resources/templates) as a string lets this endpoint return that view.
+        // Returning the name of a view
         return "edit_student";
     }
 
@@ -77,7 +77,7 @@ public class StudentController {
         model.addAttribute("page_type", "new");
         model.addAttribute("study_subjects", studySubjects);
 
-        // Returning the name of a view (found in resources/templates) as a string lets this endpoint return that view.
+        // Returning the name of a view
         return "edit_student";
     }
 }
