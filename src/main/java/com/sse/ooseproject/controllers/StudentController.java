@@ -40,13 +40,17 @@ public class StudentController {
 
     private List<Course> getCourses(String studySubject){
         Institute institute = instituteRepository.findByProvidesStudySubject(studySubject);
+        if(institute == null) return Collections.emptyList();
+
         List<Chair> chairs = institute.getChairs();
 
         Set<Course> courses = new HashSet<>();
         for(Chair chair : chairs){
             if(chair.getCourses() != null) courses.addAll(chair.getCourses());
         }
-        return new ArrayList<>(courses);
+        ArrayList<Course> finalCourses = new ArrayList<>(courses);
+        Collections.sort(finalCourses, (a,b) -> a.getName().compareTo(b.getName()));
+        return finalCourses;
     }
 
     private void validateAndSaveStudent(Student student, Model model, String pageType) {
@@ -74,7 +78,6 @@ public class StudentController {
         List<Student> students = studentRepository.findAll(sort);
         model.addAttribute("students", students);
 
-        // Returning the name of a view (found in resources/templates) as a string lets this endpoint return that view.
         return "students";
     }
 
@@ -139,9 +142,7 @@ public class StudentController {
 
     @GetMapping("/enrollment/delete")
     public String deleteStudentEnrollment(@RequestParam("student_id") long student_id, @RequestParam("course_id") long course_id, @RequestParam("semester") String semester, Model model){
-        Student student = studentRepository.findById(student_id);
-        Course course = courseRepository.findById(course_id);
-        enrollmentRepository.delete(new Enrollment(semester, student, course));
+        enrollmentRepository.deleteById_StudentIdAndId_CourseId(student_id, course_id);
 
         showEnrollmentForm(student_id, semester, model);
         return "enrollment";

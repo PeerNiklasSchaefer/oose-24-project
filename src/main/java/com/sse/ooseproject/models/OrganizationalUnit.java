@@ -2,8 +2,6 @@ package com.sse.ooseproject.models;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @MappedSuperclass
 public class OrganizationalUnit {
     //Properties
