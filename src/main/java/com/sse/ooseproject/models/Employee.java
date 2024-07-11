@@ -2,18 +2,26 @@ package com.sse.ooseproject.models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "employee")
 public class Employee extends Person{
     //Properties
     private int staffNr;
+
     private boolean isProfessor;
+
     @ManyToOne
     @JoinColumn(name="university_id")
     private University university;
+
     @OneToOne
     @JoinColumn(name="chair_id")
     private Chair chair;
+
+    @OneToMany(mappedBy = "id")
+    private List<TeachingShift> teachingShifts;
 
     //No-argument constructor
     public Employee(){
@@ -21,11 +29,12 @@ public class Employee extends Person{
     }
 
     //Constructor
-    public Employee(String firstName, String lastName, String email, int staffNr, boolean isProfessor, University university) {
+    public Employee(String firstName, String lastName, String email, int staffNr, boolean isProfessor, University university, List<TeachingShift> teachingShifts) {
         super(firstName, lastName, email);
         this.staffNr = staffNr;
         this.isProfessor = isProfessor;
         this.university = university;
+        this.teachingShifts = teachingShifts;
     }
 
     //Methods
@@ -56,4 +65,7 @@ public class Employee extends Person{
     public void setChair(Chair chair) {
         this.chair = chair;
     }
+
+    public List<TeachingShift> getTeachingShifts() {return this.teachingShifts;}
+    public void setTeachingShifts(List<TeachingShift> teachingShifts){this.teachingShifts = teachingShifts;}
 }

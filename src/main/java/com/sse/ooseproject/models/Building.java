@@ -11,12 +11,16 @@ public class Building {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String name;
+
     @OneToMany(mappedBy = "building")
     private List<Room> rooms;
+
     @ManyToOne
     @JoinColumn(name="university_id")
     private University university;
+
     @OneToMany
     private List<Chair> chairs;
 

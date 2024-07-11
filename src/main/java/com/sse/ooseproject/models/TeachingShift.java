@@ -9,10 +9,13 @@ public class TeachingShift {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String semester;
+
     @ManyToOne
     @JoinColumn(name="course_id")
     private Course course;
+
     @ManyToOne
     @JoinColumn(name="employee_id")
     private Employee employee;

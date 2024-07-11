@@ -10,8 +10,11 @@ public abstract class Person {
     @jakarta.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String firstName;
+
     private String lastName;
+
     private String email;
 
     /**
@@ -28,9 +31,12 @@ public abstract class Person {
         this.email = email;
     }
 
-    //Methods
+    //Method
     public long getId() {
         return this.id;
+    }
+    public void setId(long id){
+        this.id = id;
     }
 
     public String getFirstName() {

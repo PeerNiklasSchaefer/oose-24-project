@@ -40,8 +40,9 @@ public class StudentValidator {
             throw new StudentValidationException("The email address is not valid.");
         }
         //Check MatNr existing
-        if (studentRepository.findByMatNr(student.getMatNr()) != null) {
-            throw new StudentValidationException("Matriculation number already exists.");
+        Student existingStudent = studentRepository.findByMatNr(student.getMatNr());
+        if (existingStudent != null) {
+            if(existingStudent.getId() != student.getId()) throw new StudentValidationException("Matriculation number already exists.");
         }
         //Check Subject existing
         if (instituteRepository.findByProvidesStudySubject(student.getStudySubject()) == null){
