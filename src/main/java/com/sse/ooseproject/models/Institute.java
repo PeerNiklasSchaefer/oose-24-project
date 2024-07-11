@@ -15,6 +15,12 @@ public class Institute extends OrganizationalUnit{
     //Constructor
     public Institute() {}
 
+    public Institute(String name, List<Chair> chairs, String providesStudySubject) {
+        super(name);
+        this.chairs = chairs;
+        this.providesStudySubject = providesStudySubject;
+    }
+
     //Methods
     public List<Chair> getChairs() {
         return chairs;
