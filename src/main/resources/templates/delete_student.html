@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>Klipsias</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/bulma.min.css">
+    <link rel="stylesheet" href="/custom.css">
+</head>
+<body>
+    <nav th:replace="~{general.html :: navbar}"></nav>
+
+    <div class="columns is-fullheight" style="height: 100vh;">
+        <div th:replace="~{general.html :: sidebar}"></div>
+
+        <div class="column">
+            <div class="content p-4">
+                <h1>Studierende entfernen</span></h1>
+
+                <div class="notification is-light" th:if="${message != nil && message_type != nil}" th:classappend="${message_type} == 'error' ? 'is-danger' : 'is-success'" th:text="${message}"></div>
+
+                <form action="#" th:action="@{/student/delete}" th:object="${student}" method="post">
+                    <input type="hidden" th:field="*{id}">
+
+                    <div class="field">
+                        <label class="label">Vorname</label>
+                        <div class="control">
+                            <span th:text="*{firstName}"></span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Nachname</label>
+                        <div class="control">
+                            <span th:text="*{lastName}"></span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">E-Mail Adresse</label>
+                        <div class="control">
+                            <span th:text="*{email}" ></span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Matr. Nr.</label>
+                        <div class="control">
+                            <span th:text="*{matNr}" ></span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Fach</label>
+                        <div class="control">
+                            <span th:text="*{studySubject}" ></span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input type="submit" th:value="Löschen" class="button" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

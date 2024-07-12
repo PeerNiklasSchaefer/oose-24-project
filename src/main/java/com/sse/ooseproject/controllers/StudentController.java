@@ -118,6 +118,31 @@ public class StudentController {
         return "edit_student";
     }
 
+    @GetMapping ("/student/delete")
+    public String showDeleteStudentForm(@RequestParam("id") long id, Model model) {
+        model.addAttribute("student", studentRepository.findById(id));
+
+        return "delete_student";
+    }
+
+    @PostMapping("/student/delete")
+    public String deleteStudent(@ModelAttribute("student") Student student, Model model){
+        try {
+            studentValidator.validateStudentExists(student);
+            studentRepository.deleteById(student.getId());
+
+            // Will not be displayed, because of redirect TODO: redirect from view after delay
+            model.addAttribute("message", "Removing student was successful");
+            model.addAttribute("message_type", "success");
+            return "redirect:/students";
+        } catch (Exception e) {
+            model.addAttribute("message", e.getMessage());
+            model.addAttribute("message_type", "error");
+            model.addAttribute("student", studentRepository.findById(student.getId()));
+            return "delete_student";
+        }
+    }
+
     @GetMapping("/student/enroll")
     public String showEnrollmentForm(@RequestParam("id") long id, @RequestParam(name = "semester", defaultValue = "2024 Spring") String semester, Model model){
         Student student = studentRepository.findById(id);

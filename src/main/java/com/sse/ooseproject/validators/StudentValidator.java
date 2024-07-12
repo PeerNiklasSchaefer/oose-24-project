@@ -49,4 +49,12 @@ public class StudentValidator {
             throw new StudentValidationException("Study subject does not exist.");
         }
     }
+
+    public void validateStudentExists(Student student) throws StudentValidationException {
+        //Check MatNr existing
+        Student existingStudent = studentRepository.findById(student.getId());
+        if (existingStudent == null) {
+            throw new StudentValidationException("Student does not exist.");
+        }
+    }
 }
