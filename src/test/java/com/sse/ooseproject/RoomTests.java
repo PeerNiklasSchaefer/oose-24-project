@@ -1,10 +1,8 @@
 package com.sse.ooseproject;
 
 import com.sse.ooseproject.controllers.RoomController;
-import com.sse.ooseproject.controllers.StudentController;
 import com.sse.ooseproject.models.*;
 import com.sse.ooseproject.repositories.*;
-import com.sse.ooseproject.validators.StudentValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
